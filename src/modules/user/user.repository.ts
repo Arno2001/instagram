@@ -13,7 +13,10 @@ export class UserRepository extends Repository<UserEntity> {
 
   async findById(id: string): Promise<UserEntity | null> {
     const user = this.createQueryBuilder('user')
+      .leftJoinAndSelect('user.posts', 'post')
+      .leftJoinAndSelect('user.followers', 'follower')
       .where('user.id = :userId', { userId: id })
+      .orWhere('follower.following_user_id = :followId', { followId: id })
       .getOne();
 
     return user;
@@ -30,6 +33,7 @@ export class UserRepository extends Repository<UserEntity> {
   async findAndJoin(id: string): Promise<UserEntity | null> {
     const user = await this.createQueryBuilder('user')
       .leftJoinAndSelect('user.posts', 'post')
+      .leftJoinAndSelect('user.followers', 'follower')
       .where('user.id = :userId', { userId: id })
       .getOne();
 
@@ -39,6 +43,7 @@ export class UserRepository extends Repository<UserEntity> {
   async getEntityByUserName(userName: string): Promise<UserEntity | null> {
     const user = await this.createQueryBuilder('user')
       .leftJoinAndSelect('user.posts', 'post')
+      .leftJoinAndSelect('user.followers', 'follower')
       .where('user.userName = :userName', { userName })
       .getOne();
 

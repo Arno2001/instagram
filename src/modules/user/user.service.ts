@@ -7,12 +7,17 @@ import type { CreateUserDto } from './dtoes/create-user.dto';
 import type { UpdateUserDto } from './dtoes/update-user.dto';
 import { UserCredientalException } from './exception/user-crediential.exception';
 import { UserNotFoundException } from './exception/user-not-found.exception';
+import { FollowerEntity } from './follower.entity';
+import { FollowerRepository } from './follower.repository';
 import type { UserEntity } from './user.entity';
 import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly followerRepository: FollowerRepository,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     createUserDto.password = await UtilsProvider.generateHash(
@@ -104,5 +109,28 @@ export class UserService {
     }
 
     return userEntity;
+  }
+
+  async followUser(
+    user: UserEntity,
+    followingUser: string,
+  ): Promise<FollowerEntity | string | null> {
+    const following = await this.userRepository.findById(followingUser);
+
+    if (!following) {
+      throw new UserNotFoundException();
+    }
+
+    const follower = await this.followerRepository.findById(followingUser);
+
+    if (follower) {
+      await this.followerRepository.delete(follower.id);
+      return 'Successfully unfollowing';
+    }
+
+    return await this.followerRepository.save({
+      user: user,
+      following_user: following,
+    });
   }
 }

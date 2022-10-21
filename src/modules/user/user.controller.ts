@@ -5,6 +5,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Post,
   Put,
   UploadedFile,
   UseInterceptors,
@@ -18,6 +19,7 @@ import { Auth, UUIDParam } from '../../decorators/http.decorators';
 import { ApiFile } from '../../decorators/swagger.decorator';
 import { StorageProvider } from '../../providers/storage.provider';
 import { UpdateUserDto } from './dtoes/update-user.dto';
+import { FollowerEntity } from './follower.entity';
 import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
 
@@ -79,5 +81,14 @@ export class UserController {
       'Requested id notable your id',
       HttpStatus.FORBIDDEN,
     );
+  }
+
+  @Auth()
+  @Post('/user/:followingUser/follow')
+  async followUser(
+    @AuthUser() user,
+    @UUIDParam('followingUser') followingUser: string,
+  ): Promise<FollowerEntity | string | null> {
+    return this.userService.followUser(user, followingUser);
   }
 }

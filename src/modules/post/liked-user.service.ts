@@ -25,10 +25,10 @@ export class LikedUserService {
       throw new PostNotFoundException();
     }
 
-    const LikedUser = await this.likedUserRepository.findByUserId(user.id);
+    const likedUser = await this.likedUserRepository.findByUserId(user.id);
 
-    if (LikedUser) {
-      await this.likedUserRepository.findAndDelete(user.id);
+    if (likedUser) {
+      await this.likedUserRepository.delete(likedUser.id);
       return 'Successfully unliked';
     }
 

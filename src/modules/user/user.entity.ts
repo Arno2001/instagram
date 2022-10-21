@@ -2,6 +2,7 @@ import { AbstractEntity } from '../../common/entities/abstract.entity';
 import { GenderEnum } from '../../constants/gender.enum';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { PostEntity } from '../post/post.entity';
+import { FollowerEntity } from './follower.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractEntity {
@@ -22,6 +23,9 @@ export class UserEntity extends AbstractEntity {
 
   @Column({ nullable: true })
   avatar: string;
+
+  @OneToMany(() => FollowerEntity, (follower) => follower.user)
+  followers: FollowerEntity[];
 
   @OneToMany(() => PostEntity, (post) => post.user)
   posts: PostEntity[];

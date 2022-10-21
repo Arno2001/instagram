@@ -1,4 +1,4 @@
-import { DeleteQueryBuilder, Repository } from 'typeorm';
+import { DeleteQueryBuilder, DeleteResult, Repository } from 'typeorm';
 
 import { CustomRepository } from '../../../db/typeorm-ex.decorator';
 import { LikedUserEntity } from '../liked-user.entity';
@@ -11,12 +11,5 @@ export class LikedUserRepository extends Repository<LikedUserEntity> {
       .getOne();
 
     return likedUser;
-  }
-  async findAndDelete(
-    userId: string,
-  ): Promise<DeleteQueryBuilder<LikedUserEntity | null>> {
-    return this.createQueryBuilder('liked_user')
-      .where('liked_user.user_id = :userId', { userId })
-      .delete();
   }
 }
