@@ -51,28 +51,6 @@ export class PostService {
     return post;
   }
 
-  // async getProducts(
-  //   searchProductsDto: SearchProductsDto,
-  // ): Promise<PageDto<ProductDto>> {
-  //   const productsQuery = this.postRepository
-  //     .createQueryBuilder('product')
-  //     .where('product.name LIKE :name', {
-  //       name: `%${searchProductsDto.search_name}%`,
-  //     })
-  //     .orWhere('product.name_ru LIKE :name_ru', {
-  //       name_ru: `%${searchProductsDto.search_name}%`,
-  //     })
-  //     .orWhere('product.name_en LIKE :name_en', {
-  //       name_en: `%${searchProductsDto.search_name}%`,
-  //     });
-
-  //   const [products, pageMetaDto] = await productsQuery.paginate(
-  //     searchProductsDto,
-  //   );
-
-  //   return products.toPageDto(pageMetaDto);
-  // }
-
   async update(
     id: string,
     updatePostDto: UpdatePostDto,

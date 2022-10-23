@@ -4,6 +4,7 @@ import type { UpdateResult } from 'typeorm';
 
 import { UtilsProvider } from '../../providers/utils.provider';
 import type { CreateUserDto } from './dtoes/create-user.dto';
+import { SearchUsersDto } from './dtoes/search-user.dto';
 import type { UpdateUserDto } from './dtoes/update-user.dto';
 import { UserCredientalException } from './exception/user-crediential.exception';
 import { UserNotFoundException } from './exception/user-not-found.exception';
@@ -132,5 +133,16 @@ export class UserService {
       user: user,
       following_user: following,
     });
+  }
+
+  async searchUsers(searchUsersDto: SearchUsersDto) {
+    const users = this.userRepository
+      .createQueryBuilder('user')
+      .where('user.userName LIKE :userName', {
+        userName: `%${searchUsersDto.search_user_name}%`,
+      })
+      .getMany();
+
+    return users;
   }
 }

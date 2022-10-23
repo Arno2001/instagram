@@ -55,24 +55,4 @@ export class ApiConfigService {
       refreshTimeExpiry: this.getNumber('REFRESH_EXPIRATION_TIME'),
     };
   }
-
-  get mailConfig() {
-    return {
-      transport: {
-        service: this.getString('MAIL_SERVICE'),
-        auth: {
-          user: this.getString('MAIL_USER'),
-          pass: this.getString('MAIL_PASSWORD'),
-        },
-      },
-    };
-  }
-
-  get defoultMailFrom() {
-    return this.getString('MAIL_FROM');
-  }
-
-  get resetPasswordUrl() {
-    return this.getString('RESET_PASSWORD_URL');
-  }
 }

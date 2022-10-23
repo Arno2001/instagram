@@ -6,9 +6,6 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { PostModule } from './modules/post/post.module';
 import { ConfigModule } from '@nestjs/config';
-// import { CommentModule } from '../../my-space-backend/a/comment/comment.module';
-// import { LikesModule } from './modules/likes/likes.module';
-// import { FriendsModule } from './modules/friends/friends.module';
 
 @Module({
   imports: [

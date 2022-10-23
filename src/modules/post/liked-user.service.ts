@@ -5,8 +5,6 @@ import { LikedUserRepository } from './repository/liked-user.repository';
 import { PostRepository } from './repository/post.repository';
 import { PostNotFoundException } from './exception/post-not-found.exception';
 import { LikedUserEntity } from './liked-user.entity';
-import { UserNotFoundException } from '../user/exception/user-not-found.exception';
-import { DeleteQueryBuilder } from 'typeorm';
 
 @Injectable()
 export class LikedUserService {

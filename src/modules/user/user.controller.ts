@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Post,
   Put,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -18,6 +19,7 @@ import { AuthUser } from '../../decorators/auth-user.decorator';
 import { Auth, UUIDParam } from '../../decorators/http.decorators';
 import { ApiFile } from '../../decorators/swagger.decorator';
 import { StorageProvider } from '../../providers/storage.provider';
+import { SearchUsersDto } from './dtoes/search-user.dto';
 import { UpdateUserDto } from './dtoes/update-user.dto';
 import { FollowerEntity } from './follower.entity';
 import { UserEntity } from './user.entity';
@@ -90,5 +92,11 @@ export class UserController {
     @UUIDParam('followingUser') followingUser: string,
   ): Promise<FollowerEntity | string | null> {
     return this.userService.followUser(user, followingUser);
+  }
+
+  @Auth()
+  @Post('/search')
+  async searchUsers(@Query() searchUsersDto: SearchUsersDto) {
+    return this.userService.searchUsers(searchUsersDto);
   }
 }
