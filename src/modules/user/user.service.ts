@@ -56,7 +56,11 @@ export class UserService {
     }
 
     const avatar = file ? file.path : user.avatar;
-
+    if (updateUserDto.password) {
+      updateUserDto.password = await UtilsProvider.generateHash(
+        updateUserDto.password,
+      );
+    }
     return this.userRepository
       .update(id, {
         ...updateUserDto,
