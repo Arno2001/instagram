@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { unlinkSync } from 'fs';
+import path, { resolve } from 'path';
 import type { UpdateResult } from 'typeorm';
 
 import { UtilsProvider } from '../../providers/utils.provider';
@@ -52,15 +53,17 @@ export class UserService {
     const user = await this.getById(id);
 
     if (user.avatar) {
-      unlinkSync(user.avatar);
+      unlinkSync(resolve(process.cwd() + user.avatar));
     }
+    const filePath = file.destination.split('.')[1] + '/' + file.filename;
+    const avatar = file ? filePath : user.avatar;
 
-    const avatar = file ? file.path : user.avatar;
     if (updateUserDto.password) {
       updateUserDto.password = await UtilsProvider.generateHash(
         updateUserDto.password,
       );
     }
+
     return this.userRepository
       .update(id, {
         ...updateUserDto,
